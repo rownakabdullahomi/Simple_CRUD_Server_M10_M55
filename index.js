@@ -33,8 +33,17 @@ async function run() {
         await client.connect();
 
         // Connect to the "insertDB" database and access its "userCollection" collection
-        const database = client.db("usersDB");
-        const userCollection = database.collection("users");
+        // const database = client.db("usersDB");
+        // const userCollection = database.collection("users");
+
+        // Easy System
+        const userCollection = client.db("usersDB").collection("users");
+
+        app.get("/users", async (req, res)=>{
+            const cursor = userCollection.find();
+            const result = await cursor.toArray();
+            res.send(result)
+        })
 
         app.post("/users", async (req, res) => {
             const user = req.body;
